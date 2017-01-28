@@ -1,0 +1,10 @@
+cd Desktop/ComputerNetworks/HTTPWebProxy
+python WebProxy.py 2112
+telnet 127.0.0.1 2112
+
+GET http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
+GET http://www.cs.utah.edu:2112/~kobus/simple.html HTTP/1.0
+GET http://www.google.com/ HTTP/1.0
+GET http://www.google.com:8080/ HTTP/1.0
+
+port numbers to use: 2112 2120

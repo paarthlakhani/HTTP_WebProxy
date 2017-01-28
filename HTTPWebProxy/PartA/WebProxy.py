@@ -3,21 +3,20 @@
 # uid: u0936913
 
 from socket import *
-import sys # Can we use this ?
-from urlparse import urlparse # use this ?
-# can we use regular expressions
+import sys 
+from urlparse import urlparse 
 import re
 
+# port number needs to come from the command line.
 port = int(sys.argv[1])
-#port = 2112
 proxySocket = socket(AF_INET, SOCK_STREAM)
-#proxySocket.bind(('localhost',port))
 proxySocket.bind(('',port))
 
 # It should listen to a maximum 100 requests
 proxySocket.listen(100)
 
-# proxySocket.accept has a return value which is (conn, address) where conn is a new socket object usable to send and receive data on the connection, and address is the address bound to the socket on the other end of the connection
+# proxySocket.accept has a return value which is (conn, address) where conn is a new socket object usable to send and receive data on the connection, 
+# and address is the address bound to the socket on the other end of the connection
 
 # Valid request line is: <METHOD><URL><HTTP VERSION>
 # All other headers need to properly formatted like:
@@ -95,7 +94,6 @@ while True:
         # send the serverResponse to the client and then close the connection
         connectionSocket.send(serverResponse)
     elif requestSplits[0] == 'POST' or requestSplits[0] == 'PUT' or requestSplits[0]== 'HEAD':
-        #print "This has not been implemented"
         serverResponse = "HTTP/1.0 501 Not Implemented\r\n"
         connectionSocket.send(serverResponse)
     connectionSocket.close()
