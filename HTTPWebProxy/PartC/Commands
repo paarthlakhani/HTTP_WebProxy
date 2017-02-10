@@ -1,0 +1,38 @@
+cd Desktop/ComputerNetworks/HTTPWebProxy/PartB
+python WebProxy.py 2112
+telnet 127.0.0.1 2112
+
+work on HTTP/1.0
+
+GET http://localhost:8000/huge.html HTTP/1.0
+
+GET http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
+Host: Hello
+Content-Type: text/html
+
+
+
+PUT http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
+POST http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
+Host: Hello
+Content-Type: text/html
+
+
+GET http://www.cs.utah.edu:2112/~kobus/simple.html HTTP/1.0
+GET http://www.google.com/ HTTP/1.0
+GET http://www.google.com:8080/ HTTP/1.0
+
+port numbers to use: 2112 2120
+
+get the current IP address:
+Current IP address: 155.98.111.102
+/sbin/ifconfig
+hostname -I
+
+get the name of computer:
+hostname -f
+
+Current hostname: lab2-2.eng.utah.edu
+
+Put this in the text box provided
+localhost, 127.0.0.1
