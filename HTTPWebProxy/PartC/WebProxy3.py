@@ -34,7 +34,8 @@ def check_header_format(headers, requestLine):
     return requestLine
 
 # browsers send a blank line and then the request
-# from telnet, only the request comes in.
+# from telnet, only the request comes in.\
+
 def new_client(connectionSocket):
     entireRequest = connectionSocket.recv(1024)
     # processing when the request length > 0
@@ -77,6 +78,10 @@ def new_client(connectionSocket):
             connectionSocket.send(serverResponse)
     connectionSocket.shutdown(SHUT_RDWR)
     connectionSocket.close()
+    
+
+def malware_detection(argument): 
+    print argument;
 
 if __name__ == '__main__':
     port = int(sys.argv[1])
@@ -90,6 +95,7 @@ if __name__ == '__main__':
     while True:
         connectionSocket, addr = proxySocket.accept()
         # run this on a different process
-        p = mp.Process(target=new_client, args=(connectionSocket,))
+        #p = mp.Process(target=new_client, args=(connectionSocket,))
+        p = mp.Process(target=malware_detection, args=("f1db409bf1ff8f356cffb4a5546c34a4",))
         processes.append(p)
         p.start()
