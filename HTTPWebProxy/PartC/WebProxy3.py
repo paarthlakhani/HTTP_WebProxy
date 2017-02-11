@@ -6,6 +6,7 @@ from socket import *
 import sys 
 from urlparse import urlparse 
 import re
+import cymruwhois
 import multiprocessing as mp
 
 def proxy_server(serverRequest, host, urlPort):
@@ -81,7 +82,10 @@ def new_client(connectionSocket):
     
 
 def malware_detection(argument): 
-    print argument;
+    '''
+        Send this to the cymru website.
+    '''
+
 
 if __name__ == '__main__':
     port = int(sys.argv[1])
