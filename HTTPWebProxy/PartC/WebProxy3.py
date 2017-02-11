@@ -14,7 +14,7 @@ def proxy_server(serverRequest, host, urlPort):
     serverSocket.send(serverRequest)
     serverResponse = serverSocket.recv(10000)
     serverCurrent = serverResponse
-    while len(serverCurrent) > 0:
+    while len(serverCurrent) > 0: 
         serverCurrent = serverSocket.recv(10000)
         serverResponse = serverResponse + serverCurrent
     serverSocket.close()
