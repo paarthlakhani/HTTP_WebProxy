@@ -6,8 +6,8 @@ from socket import *
 import sys 
 from urlparse import urlparse 
 import re
-import cymruwhois
 import multiprocessing as mp
+import hashlib
 
 def proxy_server(serverRequest, host, urlPort):
     serverSocket = socket(AF_INET, SOCK_STREAM)
@@ -19,6 +19,22 @@ def proxy_server(serverRequest, host, urlPort):
         serverCurrent = serverSocket.recv(10000)
         serverResponse = serverResponse + serverCurrent
     serverSocket.close()
+
+    isHeaders = re.search("\\r\\n\\r\\n", serverResponse);
+    #print isHeaders
+    if isHeaders == "None":
+        print 'No match'
+        content = serverResponse
+    else:
+        content = re.split("\\r\\n\\r\\n", serverResponse)[1]
+    #print content
+    #print "Hello Everyone"
+    #print serverResponse
+    is_malware(content)
+   # is_content = re.search("\\r\\n",serverResponse)
+   # print is_content.group(1)
+    #print serverResponse
+    #print is_malware(serverResponse)
     return serverResponse
 
 def check_header_format(headers, requestLine):
@@ -80,12 +96,47 @@ def new_client(connectionSocket):
     connectionSocket.shutdown(SHUT_RDWR)
     connectionSocket.close()
     
-
-def malware_detection(argument): 
+# argument is the content body of malware.
+def is_malware(argument): 
     '''
         Send this to the cymru website.
     '''
+    # doing the md5sum hash
+    m = hashlib.md5()
+    m.update(argument);
+    '''
+    hash = m.hexdigest();
+    #print format(hash,'02x')
+    print hash'''
+    #print hashlib.md5(argument).hexdigest()
+    #m = hashlib.md5(argument.encode())
+    #print(m.hexdigest())
+    hash = m.hexdigest()
+    print hash
 
+    cymru_socket = socket(AF_INET, SOCK_STREAM)
+    ip = gethostbyname('hash.cymru.com')
+    port = 43
+    cymru_socket.connect((ip,port))
+    #request = 'begin\r\n'+argument+'\r\nend\r\n'
+    request = 'begin\r\n'+hash+'\r\nend\r\n'
+    #print request
+    #print 'Hello Everyone \n'
+    cymru_socket.send(request)
+    cymru_response = cymru_socket.recv(10000)
+    response_line = cymru_response.splitlines()[2];
+    isResponse = response_line.split()[2]
+    #print isResponse
+    try:
+        responseCode = int(isResponse)
+        print 'I am a malware'
+        #print responseCode
+        return True;
+    except ValueError:
+        print 'I am not a malware'
+        return False;
+    cymru_socket.shutdown(SHUT_RDWR)
+    cymru_socket.close()
 
 if __name__ == '__main__':
     port = int(sys.argv[1])
@@ -99,7 +150,9 @@ if __name__ == '__main__':
     while True:
         connectionSocket, addr = proxySocket.accept()
         # run this on a different process
-        #p = mp.Process(target=new_client, args=(connectionSocket,))
-        p = mp.Process(target=malware_detection, args=("f1db409bf1ff8f356cffb4a5546c34a4",))
+        p = mp.Process(target=new_client, args=(connectionSocket,))
+        # f1db409bf1ff8f356cffb4a5546c34a4 Malware
+        # 33ff14f98e8c1d4eed08297e2eaccf51 not Malware
+        # p = mp.Process(target=is_malware, args=("f1db409bf1ff8f356cffb4a5546c34a4",))
         processes.append(p)
         p.start()

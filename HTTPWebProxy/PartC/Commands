@@ -2,21 +2,19 @@ cd Desktop/ComputerNetworks/HTTPWebProxy/PartB
 python WebProxy.py 2112
 telnet 127.0.0.1 2112
 
-work on HTTP/1.0
-
 GET http://localhost:8000/huge.html HTTP/1.0
+GET http://localhost:8000/hello_world.html HTTP/1.0
+GET http://localhost:8000/malware1.file HTTP/1.0
+GET http://localhost:8000/malware2.file HTTP/1.0
 
 GET http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
 Host: Hello
 Content-Type: text/html
 
-
-
 PUT http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
 POST http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
 Host: Hello
 Content-Type: text/html
-
 
 GET http://www.cs.utah.edu:2112/~kobus/simple.html HTTP/1.0
 GET http://www.google.com/ HTTP/1.0
@@ -32,7 +30,23 @@ hostname -I
 get the name of computer:
 hostname -f
 
-Current hostname: lab2-2.eng.utah.edu
-
 Put this in the text box provided
 localhost, 127.0.0.1
+
+md5sum e769b6ab-ef05-11e6-86ab-80e65024849a.file
+whois -h hash.cymru.com <md5sumnumber>
+unzip -P infected <zip folder>
+-P infected <- This is the password
+
+python -m SimpleHTTPServer 8000
+
+Things to keep track on:
+
+Problem in multithreading In Progress
+Hashing done differently In Progress
+Send HTML document back to the client
+Test it with real browser
+Test with more number of files
+Catch exceptions Socket exceptions
+Write the document In Progress
+submit
