@@ -19,31 +19,37 @@ def proxy_server(serverRequest, host, urlPort):
         serverCurrent = serverSocket.recv(10000)
         serverResponse = serverResponse + serverCurrent
     serverSocket.close()
-    '''
-    isHeaders = re.search("\\r\\n\\r\\n", serverResponse);
-    #print isHeaders
-    if isHeaders == "None":
-        print 'No match'
-        content = serverResponse
-    else:
-    '''
     content = re.split("\\r\\n\\r\\n", serverResponse,1)[0]
     first_line = re.split("\\r\\n\\r\\n", serverResponse,1)[1]
-    #print content
-    #print first_line
-    #print len(first_line)
-
-    #content = re.split("\\r\\n\\r\\n", serverResponse)[1]
-    #print content
-    #print "Hello Everyone"
-    #print serverResponse
-#    first_line = is_malware(first_line)
-    first_line = is_malware(first_line)
+    malware_present = is_malware(first_line)
    # is_content = re.search("\\r\\n",serverResponse)
    # print is_content.group(1)
     #print serverResponse
     #print is_malware(serverResponse)
     #return serverResponse
+    if malware_present is True:
+        # it is a malware
+        first_line = "<html>\n"
+        first_line += " <head>Contains Malware</head>\n"
+        first_line += "   <body>\n"
+        first_line += "    This request contains malware.!\n"
+        first_line += "   </body>\n"
+        first_line += "</html>\n"
+        
+        new_content = ""
+        # changing the headers in response.
+        headers = content.splitlines()
+        
+        for i in range(len(headers)):
+            headerName = headers[i].split(":")
+            headerNameLower = headerName[0].lower()
+            if headerNameLower == 'content-type':
+                new_content = new_content + "Content-type: text/html\n"
+            elif headerNameLower == 'content-length':
+                new_content = new_content + "Content-Length: "+str(len(first_line))+"\n"
+            else:
+                new_content = new_content + headers[i] + "\n"
+        return (new_content+"\r\n\r\n"+first_line)
     return (content+"\r\n\r\n"+first_line)
 
 def check_header_format(headers, requestLine):
@@ -127,7 +133,7 @@ def is_malware(argument):
     #m = hashlib.md5(argument.encode())
     #print(m.hexdigest())
     hash = m.hexdigest()
-    #print hash
+    print hash
 
     cymru_socket = socket(AF_INET, SOCK_STREAM)
     ip = gethostbyname('hash.cymru.com')
@@ -144,19 +150,13 @@ def is_malware(argument):
     #print isResponse
     try:
         responseCode = int(isResponse)
-        error_response = "<html>\n"
-        error_response += " <head>Contains Malware</head>\n"
-        error_response += "   <body>\n"
-        error_response += "    This request contains malware.!\n"
-        error_response += "   </body>\n"
-        error_response += "</html>\n"
-        return error_response
-        #print 'I am a malware'
-        #return True;
+        # print 'I am a malware'
+        #return error_response
+        return True;
     except ValueError:
         #print 'I am not a malware'
-        #return False;
-        return argument
+        return False;
+        #return argument
     cymru_socket.shutdown(SHUT_RDWR)
     cymru_socket.close()
 
