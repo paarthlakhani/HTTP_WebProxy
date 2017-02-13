@@ -19,23 +19,32 @@ def proxy_server(serverRequest, host, urlPort):
         serverCurrent = serverSocket.recv(10000)
         serverResponse = serverResponse + serverCurrent
     serverSocket.close()
-
+    '''
     isHeaders = re.search("\\r\\n\\r\\n", serverResponse);
     #print isHeaders
     if isHeaders == "None":
         print 'No match'
         content = serverResponse
     else:
-        content = re.split("\\r\\n\\r\\n", serverResponse)[1]
+    '''
+    content = re.split("\\r\\n\\r\\n", serverResponse,1)[0]
+    first_line = re.split("\\r\\n\\r\\n", serverResponse,1)[1]
+    #print content
+    #print first_line
+    #print len(first_line)
+
+    #content = re.split("\\r\\n\\r\\n", serverResponse)[1]
     #print content
     #print "Hello Everyone"
     #print serverResponse
-    is_malware(content)
+#    first_line = is_malware(first_line)
+    first_line = is_malware(first_line)
    # is_content = re.search("\\r\\n",serverResponse)
    # print is_content.group(1)
     #print serverResponse
     #print is_malware(serverResponse)
-    return serverResponse
+    #return serverResponse
+    return (content+"\r\n\r\n"+first_line)
 
 def check_header_format(headers, requestLine):
     for i in range(len(headers)):
@@ -88,6 +97,8 @@ def new_client(connectionSocket):
                 serverResponse = "HTTP/1.0 400 Bad Request\r\n"
             else:
                 requestLine += "Connection: close\r\n\r\n"
+                #print "This is the request line"
+                #print requestLine
                 serverResponse = proxy_server(requestLine, host, urlPort)
             connectionSocket.send(serverResponse)
         else:
@@ -102,6 +113,10 @@ def is_malware(argument):
         Send this to the cymru website.
     '''
     # doing the md5sum hash
+    #print 'This is the length'
+    #print len(argument)
+    #print 'This is the content'
+    #print argument.splitlines()[0]
     m = hashlib.md5()
     m.update(argument);
     '''
@@ -112,7 +127,7 @@ def is_malware(argument):
     #m = hashlib.md5(argument.encode())
     #print(m.hexdigest())
     hash = m.hexdigest()
-    print hash
+    #print hash
 
     cymru_socket = socket(AF_INET, SOCK_STREAM)
     ip = gethostbyname('hash.cymru.com')
@@ -129,12 +144,19 @@ def is_malware(argument):
     #print isResponse
     try:
         responseCode = int(isResponse)
-        print 'I am a malware'
-        #print responseCode
-        return True;
+        error_response = "<html>\n"
+        error_response += " <head>Contains Malware</head>\n"
+        error_response += "   <body>\n"
+        error_response += "    This request contains malware.!\n"
+        error_response += "   </body>\n"
+        error_response += "</html>\n"
+        return error_response
+        #print 'I am a malware'
+        #return True;
     except ValueError:
-        print 'I am not a malware'
-        return False;
+        #print 'I am not a malware'
+        #return False;
+        return argument
     cymru_socket.shutdown(SHUT_RDWR)
     cymru_socket.close()
 

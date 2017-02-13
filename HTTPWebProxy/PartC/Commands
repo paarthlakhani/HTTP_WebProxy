@@ -6,6 +6,10 @@ GET http://localhost:8000/huge.html HTTP/1.0
 GET http://localhost:8000/hello_world.html HTTP/1.0
 GET http://localhost:8000/malware1.file HTTP/1.0
 GET http://localhost:8000/malware2.file HTTP/1.0
+GET http://0.0.0.0:8000/malware1.file HTTP/1.0
+GET http://0.0.0.0:8000/malware2.file HTTP/1.0
+GET http://0.0.0.0:8000/hello_world.html HTTP/1.0
+GET http://0.0.0.0:8000/huge.html HTTP/1.0
 
 GET http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
 Host: Hello
@@ -40,6 +44,13 @@ unzip -P infected <zip folder>
 
 python -m SimpleHTTPServer 8000
 
+Correct Hashes:
+huge.html --> bb5af041c26035f4efb7db8fb4f6bc69 not malware
+hello_world.html --> 81c1188185576634e2730fc8a1e6c9a1 not malware
+malware1.file --> f1db409bf1ff8f356cffb4a5546c34a4 malware
+malware2.file --> b3aa7897f91d154448ca43c228ae7a8e malware
+
+
 Things to keep track on:
 
 Problem in multithreading In Progress
@@ -50,3 +61,6 @@ Test with more number of files
 Catch exceptions Socket exceptions
 Write the document In Progress
 submit
+
+application/octet-stream
+text/html
