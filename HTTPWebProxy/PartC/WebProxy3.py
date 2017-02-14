@@ -60,7 +60,6 @@ def proxy_server(serverRequest, host, urlPort):
             return (new_content+"\r\n\r\n"+first_line)
         return (content+"\r\n\r\n"+first_line)
     except Exception as e:
-        print 'Caught Exception',type(e)
         raise
     finally:
         serverSocket.close()
@@ -145,7 +144,6 @@ def new_client(connectionSocket):
     except Exception as e:
         serverResponse = ('Caught Exception' + str(type(e)))
         connectionSocket.send(serverResponse)
-        #print 'Caught Exception',type(e)
         raise
     finally:
         connectionSocket.shutdown(SHUT_RDWR)
@@ -178,7 +176,6 @@ def is_malware(argument):
         except ValueError:
             return False # not Malware
     except Exception as e:
-        print 'Caught exception',type(e)
         raise
     finally:
         cymru_socket.shutdown(SHUT_RDWR)
