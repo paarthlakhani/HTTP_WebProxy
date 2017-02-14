@@ -16,6 +16,9 @@ GET http://0.0.0.0:8000/malware7.file HTTP/1.0
 GET http://0.0.0.0:8000/7ZipSetup.exe HTTP/1.0
 GET http://0.0.0.0:8000/2d.exe HTTP/1.0
 GET http://0.0.0.0:8000/340s.exe HTTP/1.0
+GET http://www.google.com/ HTTP/1.0
+GET http://www.youtube.com/ HTTP/1.0
+
 
 GET http://0.0.0.0:8000/hello_world.html HTTP/1.0
 GET http://0.0.0.0:8000/huge.html HTTP/1.0
@@ -67,10 +70,12 @@ malware4.file --> 4f851a9c8d9717ed4f172e6b3527a8b2 malware but not recognied by 
 340s.exe --> 48cd89827939b3a8976d9bb0993bc338
 
 Things to keep track on:
-Empty Request Exception
-telnet multiple lines
-discrepency in telnet and browser requests
-Catch exceptions Socket exceptions
+Empty Request Exception Done
+telnet multiple lines Not Done
+Catch exceptions Socket exceptions Done
+report In Progress 
+discrepency in telnet and browser requests Done
+readme.txt file Done
 submit
 
 Problem in multithreading Done
@@ -79,13 +84,10 @@ Hashing done differently Done
 Send HTML document back to the client Done
 Test it with real browser Done
 Test with more number of files Done
-telnet multiple lines
-discrepency in telnet and browser requests
-Write the document In Progress
-submit
-
-application/octet-stream
-text/html
+inline documentation Done
 
 Questions:
 1.
+
+GET http://124.54.12.01 HTTP/1.0
+GET http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
