@@ -2,21 +2,35 @@ cd Desktop/ComputerNetworks/HTTPWebProxy/PartB
 python WebProxy.py 2112
 telnet 127.0.0.1 2112
 
-work on HTTP/1.0
-
 GET http://localhost:8000/huge.html HTTP/1.0
+GET http://localhost:8000/hello_world.html HTTP/1.0
+GET http://localhost:8000/malware1.file HTTP/1.0
+GET http://localhost:8000/malware2.file HTTP/1.0
+GET http://0.0.0.0:8000/malware1.file HTTP/1.0
+GET http://0.0.0.0:8000/malware2.file HTTP/1.0
+GET http://0.0.0.0:8000/malware3.file HTTP/1.0
+GET http://0.0.0.0:8000/malware4.file HTTP/1.0
+GET http://0.0.0.0:8000/malware5.file HTTP/1.0
+GET http://0.0.0.0:8000/malware6.file HTTP/1.0
+GET http://0.0.0.0:8000/malware7.file HTTP/1.0
+GET http://0.0.0.0:8000/7ZipSetup.exe HTTP/1.0
+GET http://0.0.0.0:8000/2d.exe HTTP/1.0
+GET http://0.0.0.0:8000/340s.exe HTTP/1.0
+GET http://www.google.com/ HTTP/1.0
+GET http://www.youtube.com/ HTTP/1.0
+
+
+GET http://0.0.0.0:8000/hello_world.html HTTP/1.0
+GET http://0.0.0.0:8000/huge.html HTTP/1.0
 
 GET http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
 Host: Hello
 Content-Type: text/html
 
-
-
 PUT http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
 POST http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
 Host: Hello
 Content-Type: text/html
-
 
 GET http://www.cs.utah.edu:2112/~kobus/simple.html HTTP/1.0
 GET http://www.google.com/ HTTP/1.0
@@ -32,7 +46,48 @@ hostname -I
 get the name of computer:
 hostname -f
 
-Current hostname: lab2-2.eng.utah.edu
-
 Put this in the text box provided
 localhost, 127.0.0.1
+
+md5sum e769b6ab-ef05-11e6-86ab-80e65024849a.file
+whois -h hash.cymru.com <md5sumnumber>
+unzip -P infected <zip folder>
+-P infected <- This is the password
+e7
+ec14
+
+
+python -m SimpleHTTPServer 8000
+
+Correct Hashes:
+huge.html --> bb5af041c26035f4efb7db8fb4f6bc69 not malware
+hello_world.html --> 81c1188185576634e2730fc8a1e6c9a1 not malware
+malware1.file --> f1db409bf1ff8f356cffb4a5546c34a4 malware
+malware2.file --> b3aa7897f91d154448ca43c228ae7a8e malware  
+malware4.file --> 4f851a9c8d9717ed4f172e6b3527a8b2 malware but not recognied by cymru
+7ZipSetup.exe --> 02e0b78e2876087f678f070ed60e4c30
+2d.exe --> 38b50102f941b4f4cba161408cf20933
+340s.exe --> 48cd89827939b3a8976d9bb0993bc338
+
+Things to keep track on:
+Empty Request Exception Done
+telnet multiple lines Not Done
+Catch exceptions Socket exceptions Done
+report In Progress 
+discrepency in telnet and browser requests Done
+readme.txt file Done
+submit
+
+Problem in multithreading Done
+Return a HTML document Done
+Hashing done differently Done
+Send HTML document back to the client Done
+Test it with real browser Done
+Test with more number of files Done
+inline documentation Done
+
+Questions:
+1.
+
+GET http://124.54.12.01 HTTP/1.0
+GET http://www.cs.utah.edu/~kobus/simple.html HTTP/1.0
